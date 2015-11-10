@@ -5,13 +5,11 @@ struct _entropy_transcation{
 	int n;
 	int m;
 	int *c;
-	int (*f)(double);
 };
 
-int entropy_transcation_init(entropy_t *e, int _n, int (*_f)(double)){
+int entropy_transcation_init(entropy_t *e, int _n){
 	*e = malloc(sizeof(entropy_t));
 	(*e)->n = _n;
-	(*e)->f = _f;
 	(*e)->m = 0;
 	(*e)->c = malloc(sizeof(int) * (*e)->n);
 	int i;
@@ -21,8 +19,7 @@ int entropy_transcation_init(entropy_t *e, int _n, int (*_f)(double)){
 	return 1;
 }
 
-int entropy_transcation_sample(entropy_t e, double item){
-	int state = e->f(item);
+int entropy_transcation_sample(entropy_t e, int state){
 	if (state >= 0 && state < e->n){
 		e->c[state] += 1;
 		e->m += 1;
